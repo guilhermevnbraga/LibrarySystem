@@ -4,18 +4,17 @@ import java.util.Date;
 public class Book {
     private int id;
     private String title;
-    private Author author;
+    private int authorId;
     private Boolean isAvailable;
     private Date createdAt;
     private Date updatedAt;
 
-    public Book(int id, String title, Author author, Boolean isAvailable, Date createdAt, Date updatedAt) {
+    public Book(int id, String title, int authorId, Boolean isAvailable, Date createdAt, Date updatedAt) {
         this.id = id;
         this.title = title;
-        this.author = author;
+        this.authorId = authorId;
         this.isAvailable = isAvailable;
         this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
     public void setId(int id) {
@@ -34,12 +33,12 @@ public class Book {
         return this.title;
     }
 
-    public void setAuthor(Author author) {
-        this.author = author;
+    public void setAuthor(int authorId) {
+        this.authorId = authorId;
     }
 
-    public Author getAuthor() {
-        return this.author;
+    public int getAuthor() {
+        return this.authorId;
     }
 
     public void setIsAvailable(Boolean isAvailable) {

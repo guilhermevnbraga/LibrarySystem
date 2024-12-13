@@ -2,31 +2,31 @@ package models;
 import java.util.Date;
 
 public class Borrow {
-    private Book book;
-    private Customer borrower;
+    private int bookId;
+    private int customerId;
     private Date borrowedAt;
     private Date returnedAt;
 
-    public Borrow(Book book, Customer borrower, Date borrowedAt) {
-        this.book = book;
-        this.borrower = borrower;
+    public Borrow(int bookId, int customerId, Date borrowedAt) {
+        this.bookId = bookId;
+        this.customerId = customerId;
         this.borrowedAt = borrowedAt;
     }
 
-    public void setBook(Book book) {
-        this.book = book;
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
     }
 
-    public Book getBook() {
-        return this.book;
+    public int getBookId() {
+        return this.bookId;
     }
 
-    public void setBorrower(Customer borrower) {
-        this.borrower = borrower;
+    public void setCstomerId(int customerId) {
+        this.customerId = customerId;
     }
 
-    public Customer getBorrower() {
-        return this.borrower;
+    public int getCustomerId() {
+        return this.customerId;
     }
 
     public void setBorrowedAt(Date borrowedAt) {
