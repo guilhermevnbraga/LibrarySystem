@@ -35,4 +35,9 @@ public class Author {
     public Date getBirthDate() {
         return this.birthDate;
     }
+
+    @Override
+    public String toString() {
+        return "Author: " + this.name + " (ID: " + this.id + ")";
+    }
 }

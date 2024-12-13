@@ -15,6 +15,7 @@ public class Book {
         this.authorId = authorId;
         this.isAvailable = isAvailable;
         this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public void setId(int id) {
@@ -63,5 +64,10 @@ public class Book {
 
     public Date getUpdatedAt() {
         return this.updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Book: " + this.title + " (ID: " + this.id + ")";
     }
 }

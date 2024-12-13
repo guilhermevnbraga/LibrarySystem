@@ -10,13 +10,14 @@ public class Customer {
     private Date createdAt;
     private Date updatedAt;
 
-    public Customer(int id, String name, String email, int password, Date birthDate, Date createdAt) {
+    public Customer(int id, String name, String email, int password, Date birthDate, Date createdAt, Date updatedAt) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.birthDate = birthDate;
         this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public void setId(int id) {

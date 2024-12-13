@@ -7,10 +7,11 @@ public class Borrow {
     private Date borrowedAt;
     private Date returnedAt;
 
-    public Borrow(int bookId, int customerId, Date borrowedAt) {
+    public Borrow(int bookId, int customerId, Date borrowedAt, Date returnedAt) {
         this.bookId = bookId;
         this.customerId = customerId;
         this.borrowedAt = borrowedAt;
+        this.returnedAt = returnedAt;
     }
 
     public void setBookId(int bookId) {
@@ -43,5 +44,10 @@ public class Borrow {
 
     public Date getReturnedAt() {
         return this.returnedAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Borrow: Book ID: " + this.bookId + ", Customer ID: " + this.customerId + ", Borrowed At: " + this.borrowedAt + ", Returned At: " + this.returnedAt;
     }
 }
