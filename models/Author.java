@@ -1,4 +1,5 @@
 package models;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Author {
@@ -38,6 +39,13 @@ public class Author {
 
     @Override
     public String toString() {
-        return "Author: " + this.name + " (ID: " + this.id + ")";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String birthDateString = (birthDate != null) ? dateFormat.format(birthDate) : "N/A";
+        return """
+               Author Details:
+               ID: %d
+               Name: %s
+               Birth Date: %s
+               """.formatted(id, name, birthDateString);
     }
 }

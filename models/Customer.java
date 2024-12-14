@@ -1,4 +1,5 @@
 package models;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Customer {
@@ -7,13 +8,15 @@ public class Customer {
     private String email;
     private String password;
     private Date birthDate;
+    private Boolean isAdmin;
 
-    public Customer(int id, String name, String email, String password, Date birthDate) {
+    public Customer(int id, String name, String email, String password, Date birthDate, Boolean isAdmin) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.birthDate = birthDate;
+        this.isAdmin = isAdmin;
     }
 
     public void setId(int id) {
@@ -56,8 +59,26 @@ public class Customer {
         return this.birthDate;
     }
 
+    public void setIsAdmin(Boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+
+    public Boolean getIsAdmin() {
+        return this.isAdmin;
+    }
+
     @Override
     public String toString() {
-        return "Customer [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", birthDate=" + birthDate + "]";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String birthDateString = (birthDate != null) ? dateFormat.format(birthDate) : "N/A";
+        return """
+            Customer Details:
+            ID: %d
+            Name: %s
+            Email: %s
+            Password: %s
+            Birth Date: %s
+            Admin: %s
+            """.formatted(id, name, email, password, birthDateString, isAdmin ? "Yes" : "No");
     }
 }

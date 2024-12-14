@@ -79,7 +79,7 @@ public class Library {
 							} catch (ParseException e) {
 								System.err.println("Error parsing date: " + e.getMessage());
 							}
-							Customer newCustomer = new Customer(customers.size() + 1, name, email, password, date);
+							Customer newCustomer = new Customer(customers.size() + 1, name, email, password, date, false);
 							customers.add(newCustomer);
 
 							Path customersPath = Paths.get("./db/customers.csv");
@@ -98,7 +98,15 @@ public class Library {
 					}
 				}
 			} else {
-				System.out.println("\n1 - Add Book");
+				if(loggedCustomer.getIsAdmin()) {
+					System.out.println("\nAdmin Menu:");
+					System.out.println("A - List all customers");
+					System.out.println("B - Customer borrow history");
+					System.out.println("C - Book borrow history");
+				}
+
+				System.out.println("\nLibrary Menu:");
+				System.out.println("1 - Add Book");
 				System.out.println("2 - Search Books");
 				System.out.println("3 - My Borrowed Books");
 				System.out.println("4 - Borrow Book");
@@ -107,6 +115,54 @@ public class Library {
 				System.out.println("7 - Exit");
 				answer = input.nextLine();
 				switch(answer) {
+					case "A" -> {
+						if(loggedCustomer.getIsAdmin()) {
+							System.out.println("\nCustomers:");
+							customers.forEach(customer -> System.out.println(customer));
+						}
+					}
+					case "B" -> {
+						if(loggedCustomer.getIsAdmin()) {
+							System.out.println("\nEnter the customer ID:");
+							int customerId = Integer.parseInt(input.nextLine());
+							Boolean found = false;
+							for (Customer customer : customers) {
+								if (customer.getId() == customerId) {
+									for (Borrow borrow : borrows) {
+										if (borrow.getCustomerId() == customerId) {
+											if(!found) System.out.println("\nBorrow history for " + customer.getName() + ":");
+											System.out.println(borrow);
+											found = true;
+										}
+									}
+								}
+							}
+							if(!found) {
+								System.out.println("\nNo borrow history found\n");
+							}
+						}
+					}
+					case "C" -> {
+						if(loggedCustomer.getIsAdmin()) {
+							System.out.println("\nEnter the book ID:");
+							int bookId = Integer.parseInt(input.nextLine());
+							Boolean found = false;
+							for (Book book : books) {
+								if (book.getId() == bookId) {
+									for (Borrow borrow : borrows) {
+										if (borrow.getBookId() == bookId) {
+											if(!found) System.out.println("\nBorrow history for " + book.getTitle() + ":");
+											System.out.println(borrow);
+											found = true;
+										}
+									}
+								}
+							}
+							if(!found) {
+								System.out.println("\nNo borrow history found\n");
+							}
+						}
+					}
 					case "1" -> {
 						System.out.println("\nEnter the book title:");
 						String title = input.nextLine();
@@ -219,7 +275,9 @@ public class Library {
 						}
 					}
 					case "4" -> {
-						System.out.println("\nEnter the book ID:");
+						System.out.println("\nEnter your name:");
+						String name = input.nextLine();
+						System.out.println("Enter the book ID:");
 						int bookId = Integer.parseInt(input.nextLine());
 						Boolean found = false;
 						for (Book book : books) {
@@ -324,7 +382,7 @@ public class Library {
 				
 				Customer customer = new Customer(
 					Integer.parseInt(data.get(0)), data.get(1), data.get(2),
-					data.get(3), birthDate);
+					data.get(3), birthDate, Boolean.valueOf(data.get(5)));
 				customers.add(customer);
 			});
 

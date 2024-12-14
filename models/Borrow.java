@@ -1,4 +1,5 @@
 package models;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Borrow {
@@ -48,6 +49,15 @@ public class Borrow {
 
     @Override
     public String toString() {
-        return "Borrow: Book ID: " + this.bookId + ", Customer ID: " + this.customerId + ", Borrowed At: " + this.borrowedAt + ", Returned At: " + this.returnedAt;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String borrowedAtString = (borrowedAt != null) ? dateFormat.format(borrowedAt) : "N/A";
+        String returnedAtString = (returnedAt != null) ? dateFormat.format(returnedAt) : "N/A";
+        return """
+               Borrow Details:
+               Book ID: %d
+               Customer ID: %d
+               Borrowed At: %s
+               Returned At: %s
+               """.formatted(bookId, customerId, borrowedAtString, returnedAtString);
     }
 }

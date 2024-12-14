@@ -1,4 +1,5 @@
 package models;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Book {
@@ -78,6 +79,18 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book: " + this.title + " (ID: " + this.id + ")";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String createdAtString = (createdAt != null) ? dateFormat.format(createdAt) : "N/A";
+        String updatedAtString = (updatedAt != null) ? dateFormat.format(updatedAt) : "N/A";
+        return """
+               Book Details:
+               ID: %d
+               Title: %s
+               Genre: %s
+               Author: %s
+               Available: %s
+               Created At: %s
+               Updated At: %s
+               """.formatted(id, title, genre, author.getName(), (isAvailable ? "Yes" : "No"), createdAtString, updatedAtString);
     }
 }
