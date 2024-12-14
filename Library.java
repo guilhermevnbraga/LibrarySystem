@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -29,7 +30,7 @@ public class Library {
 
 		while(running) {
 			if(loggedCustomer == null) {
-				System.out.println("Welcome to the Library");
+				System.out.println("Welcome to the Library\n");
 				System.out.println("1 - Login");
 				System.out.println("2 - Register");
 				System.out.println("3 - Exit");
@@ -37,23 +38,23 @@ public class Library {
 				switch (answer) {
 					case "1" -> {
 						Boolean found = false;
-						System.out.println("Enter your email:");
+						System.out.println("\nEnter your email:");
 						String email = input.nextLine();
 						System.out.println("Enter your password:");
 						String password = input.nextLine();
 						for (int i = 0; i < customers.size(); i++) {
 							if (customers.get(i).getEmail().equals(email) && customers.get(i).getPassword().equals(password)) {
-								System.out.println("Welcome " + customers.get(i).getName() + "!");
+								System.out.println("\nWelcome " + customers.get(i).getName() + "!");
 								loggedCustomer = customers.get(i);
 								found = true;
 							}
 						}
 						if(!found) {
-							System.out.println("Invalid email or password");
+							System.out.println("Invalid email or password\n");
 						}
 					}
 					case "2" -> {
-						System.out.println("Enter your name:");
+						System.out.println("\nEnter your name:");
                         String name = input.nextLine();
                         System.out.println("Enter your email:");
                         String email = input.nextLine();
@@ -97,7 +98,7 @@ public class Library {
 					}
 				}
 			} else {
-				System.out.println("1 - Add Book");
+				System.out.println("\n1 - Add Book");
 				System.out.println("2 - Search Books");
 				System.out.println("3 - My Borrowed Books");
 				System.out.println("4 - Borrow Book");
@@ -107,50 +108,58 @@ public class Library {
 				answer = input.nextLine();
 				switch(answer) {
 					case "1" -> {
-						System.out.println("Enter the book title:");
+						System.out.println("\nEnter the book title:");
 						String title = input.nextLine();
+						System.out.println("Enter the book genre:");
+						String genre = input.nextLine();
 						System.out.println("Enter the author ID:");
 						int authorId = Integer.parseInt(input.nextLine());
 						authors.forEach(author -> {
 							if (author.getId() == authorId) {
-								Book newBook = new Book(books.size() + 1, title, author, true);
+								Book newBook = new Book(books.size() + 1, title, genre, author, true, new Date(), null);
 								books.add(newBook);
+
+								Date now = new Date();
+        						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        						String date = dateFormat.format(now);
 
 								Path booksPath = Paths.get("./db/books.csv");
 								try {
-									Files.write(booksPath, Arrays.asList(newBook.getId() + ";" + newBook.getTitle() + ";" + authorId + ";" + newBook.getIsAvailable()), StandardOpenOption.APPEND);
+									Files.write(booksPath, Arrays.asList(newBook.getId() + ";" + newBook.getTitle() + ";" + genre + ";" + authorId + ";" + newBook.getIsAvailable() + ";" + date + ";" + null), StandardOpenOption.APPEND);
 								} catch (IOException e) {
 									System.err.println("An error occurred: " + e.getMessage());
 								}
 
-								System.out.println("Book added successfully!");
+								System.out.println("Book added successfully!\n");
 							}
 						});
 					}
 					case "2" -> {
-						System.out.println("1 - Search by title");
+						System.out.println("\n1 - Search by title");
 						System.out.println("2 - Search by author");
-						System.out.println("3 - Return");
+						System.out.println("3 - Search by genre");
+						System.out.println("4 - Show recently added books");
+						System.out.println("5 - Return");
 						answer = input.nextLine();
 						switch(answer) {
 							case "1" -> {
 								Boolean found = false;
-								System.out.println("Enter the book title:");
+								System.out.println("\nEnter the book title:");
 								String title = input.nextLine();
 								for (Book book : books) {
 									if (book.getTitle().contains(title) && book.getIsAvailable()) {
-										if(!found) System.out.println("Books with title " + title + ":");
+										if(!found) System.out.println("\nBooks with title " + title + ":");
 										System.out.println(book);
 										found = true;
 									}
 								}
 								if(!found) {
-									System.out.println("No books found");
+									System.out.println("\nNo books found\n");
 								}
 							}
 							case "2" -> {
 								Boolean found = false;
-								System.out.println("Enter the author name:");
+								System.out.println("\nEnter the author name:");
 								String authorName = input.nextLine();
 								for (Book book : books) {
 									if (book.getAuthor().getName().contains(authorName) && book.getIsAvailable()) {
@@ -160,23 +169,57 @@ public class Library {
 									}
 								}
 								if(!found) {
-									System.out.println("No books found");
+									System.out.println("\nNo books found\n");
 								}
 							}
 							case "3" -> {
+								Boolean found = false;
+								System.out.println("\nEnter the genre:");
+								String genre = input.nextLine();
+								for (Book book : books) {
+									if (book.getGenre().contains(genre) && book.getIsAvailable()) {
+										if(!found) System.out.println("\nBooks in genre " + genre + ":");
+										System.out.println(book);
+										found = true;
+									}
+								}
+								if(!found) {
+									System.out.println("\nNo books found\n");
+								}
+							}
+							case "4" -> {
+								Boolean found = false;
+								for (Book book : books) {
+									if (book.getCreatedAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())) {
+										if(!found) System.out.println("\nRecently added books:");
+										System.out.println(book);
+										found = true;
+									}
+								}
+								if(!found) {
+									System.out.println("\nNo books found\n");
+								}
+							}
+							case "5" -> {
 								continue;
 							}
 						}
 					}
 					case "3" -> {
+						Boolean found = false;
 						for (Borrow borrow : borrows) {
 							if (borrow.getCustomerId() == loggedCustomer.getId()) {
+								if(!found) System.out.println("\nMy borrowed books:");
 								System.out.println(borrow);
+								found = true;
 							}
+						}
+						if(!found) {
+							System.out.println("\nNo borrowed books\n");
 						}
 					}
 					case "4" -> {
-						System.out.println("Enter the book ID:");
+						System.out.println("\nEnter the book ID:");
 						int bookId = Integer.parseInt(input.nextLine());
 						Boolean found = false;
 						for (Book book : books) {
@@ -184,10 +227,15 @@ public class Library {
 								Borrow newBorrow = new Borrow(bookId, loggedCustomer.getId(), new Date(), null);
 								borrows.add(newBorrow);
 								book.setIsAvailable(false);
-								System.out.println("Book borrowed successfully!");
+								System.out.println("\nBook borrowed successfully!\n");
 								Path borrowsPath = Paths.get("./db/borrows.csv");
+
+        						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        						String borrowedAt = dateFormat.format(newBorrow.getBorrowedAt());
+								String returnedAt = null;
+								if (newBorrow.getReturnedAt() != null) returnedAt = dateFormat.format(newBorrow.getReturnedAt());
 								try {
-									Files.write(borrowsPath, Arrays.asList(newBorrow.getBookId() + ";" + newBorrow.getCustomerId() + ";" + newBorrow.getBorrowedAt() + ";" + newBorrow.getReturnedAt()), StandardOpenOption.APPEND);
+									Files.write(borrowsPath, Arrays.asList(newBorrow.getBookId() + ";" + newBorrow.getCustomerId() + ";" + borrowedAt + ";" + returnedAt), StandardOpenOption.APPEND);
 								} catch (IOException e) {
 									System.err.println("An error occurred: " + e.getMessage());
 								}
@@ -195,11 +243,11 @@ public class Library {
 							}
 						}
 						if(!found) {
-							System.out.println("Book not found or not available");
+							System.out.println("\nBook not found or not available\n");
 						}
 					}
 					case "5" -> {
-						System.out.println("Enter the book ID:");
+						System.out.println("\nEnter the book ID:");
 						int bookId = Integer.parseInt(input.nextLine());
 						for (Borrow borrow : borrows) {
 							if (borrow.getCustomerId() == loggedCustomer.getId() && borrow.getBookId() == bookId) {
@@ -209,7 +257,7 @@ public class Library {
 										book.setIsAvailable(true);
 									}
 								}
-								System.out.println("Book returned successfully!");
+								System.out.println("\nBook returned successfully!\n");
 								Path borrowsPath = Paths.get("./db/borrows.csv");
 								try {
 									Files.readAllLines(borrowsPath).forEach(line -> {
@@ -332,14 +380,24 @@ public class Library {
 				ArrayList<String> data = new ArrayList<>(Arrays.asList(line.split(";")));
 				Author bookAuthor = null;
 				for (Author author : getAuthors()) {
-					if (author.getId() == Integer.parseInt(data.get(2))) {
+					if (author.getId() == Integer.parseInt(data.get(3))) {
 						bookAuthor = author;
 					}
 				}
 
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				Date createdAt = null;
+				Date updatedAt = null;
+				try {
+					createdAt = dateFormat.parse(data.get(5));
+					if(!data.get(6).equals("null")) updatedAt = dateFormat.parse(data.get(6));
+				} catch (ParseException e) {
+					System.err.println("Error parsing date: " + e.getMessage());
+				}
+
 				Book book = new Book(
-					Integer.parseInt(data.get(0)), data.get(1),
-					bookAuthor, Boolean.valueOf(data.get(3)));
+					Integer.parseInt(data.get(0)), data.get(1), data.get(2), 
+					bookAuthor, Boolean.valueOf(data.get(4)), createdAt, updatedAt);
 					
 				books.add(book);
 			});
