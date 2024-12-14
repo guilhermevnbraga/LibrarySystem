@@ -5,19 +5,15 @@ public class Customer {
     private int id;
     private String name;
     private String email;
-    private int password;
+    private String password;
     private Date birthDate;
-    private Date createdAt;
-    private Date updatedAt;
 
-    public Customer(int id, String name, String email, int password, Date birthDate, Date createdAt, Date updatedAt) {
+    public Customer(int id, String name, String email, String password, Date birthDate) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.birthDate = birthDate;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
     public void setId(int id) {
@@ -44,11 +40,11 @@ public class Customer {
         return this.email;
     }
 
-    public void setPassword(int password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    public int getPassword() {
+    public String getPassword() {
         return this.password;
     }
 
@@ -60,24 +56,8 @@ public class Customer {
         return this.birthDate;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getCreatedAt() {
-        return this.createdAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Date getUpdatedAt() {
-        return this.updatedAt;
-    }
-
     @Override
     public String toString() {
-        return "Customer [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", birthDate=" + birthDate + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+        return "Customer [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", birthDate=" + birthDate + "]";
     }
 }

@@ -1,2 +1,3 @@
-1;John Doe;john.doe@example.com;1234;1990-01-01;2023-01-01
-2;Jane Smith;jane.smith@example.com;5678;1985-05-15;2023-01-01
+1;John Doe;john.doe@example.com;password123;1990-01-01;2023-01-01;2023-01-01
+2;Jane Smith;jane.smith@example.com;password456;1985-05-15;2023-02-01;2023-02-01
+3;guilherme;guilherme@gmail.com;tatakae_123;2005-10-21

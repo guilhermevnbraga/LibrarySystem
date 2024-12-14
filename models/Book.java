@@ -1,21 +1,16 @@
 package models;
-import java.util.Date;
 
 public class Book {
     private int id;
     private String title;
-    private int authorId;
+    private Author author;
     private Boolean isAvailable;
-    private Date createdAt;
-    private Date updatedAt;
 
-    public Book(int id, String title, int authorId, Boolean isAvailable, Date createdAt, Date updatedAt) {
+    public Book(int id, String title, Author author, Boolean isAvailable) {
         this.id = id;
         this.title = title;
-        this.authorId = authorId;
+        this.author = author;
         this.isAvailable = isAvailable;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
     public void setId(int id) {
@@ -34,12 +29,12 @@ public class Book {
         return this.title;
     }
 
-    public void setAuthor(int authorId) {
-        this.authorId = authorId;
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
-    public int getAuthor() {
-        return this.authorId;
+    public Author getAuthor() {
+        return this.author;
     }
 
     public void setIsAvailable(Boolean isAvailable) {
@@ -48,22 +43,6 @@ public class Book {
 
     public Boolean getIsAvailable() {
         return this.isAvailable;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getCreatedAt() {
-        return this.createdAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Date getUpdatedAt() {
-        return this.updatedAt;
     }
 
     @Override
